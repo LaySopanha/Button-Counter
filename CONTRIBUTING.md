@@ -10,7 +10,7 @@ Requires **Node 22+** (`node -v`). The repo enforces this via `engines` + `.npmr
 git clone https://github.com/LaySopanha/Button-Counter.git
 cd Button-Counter
 npm install
-cp .env.example .env   # turso value is needed 
+cp .env.example .env   # turso value is needed
 npm run dev
 ```
 
