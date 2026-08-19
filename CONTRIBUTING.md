@@ -1,70 +1,82 @@
-# Contributing
+# How We Work
 
-Team workflow for Button Counter. Read this before your first PR.
+Read this before you write code.
 
-## Setup
+## Who does what
 
-Requires **Node 22+** (`node -v`). The repo enforces this via `engines` + `.npmrc`.
+| Member       | Area                        |
+| ------------ | --------------------------- |
+| @LaySopanha  | Lead, CI, deploy, reviews   |
+| @zinhour10   | Database, Turso schema      |
+| @virakbottch | Server routes, form actions |
+| @Thaikarona  | Counter UI                  |
+| @LYLEAB      | History UI                  |
+| @Bemine5Cent | Tests, docs, QA             |
+
+Work only on your own issues.
+
+## The flow
+
+```
+Issue  ->  Branch  ->  Code  ->  Pull request  ->  Review  ->  Merge
+```
+
+Never skip a step.
+
+## Set up (once)
+
+**Windows first:** Settings > System > For developers > Developer Mode > On.
+Then restart your terminal. If you skip this, `npm run build` fails.
+
+You need Node.js 22 or higher. Check with `node -v`.
 
 ```bash
 git clone https://github.com/LaySopanha/Button-Counter.git
 cd Button-Counter
 npm install
-cp .env.example .env   # turso value is needed
 npm run dev
 ```
 
-**Windows only:** enable Developer Mode once, or `npm run build` fails with `EPERM: symlink`.
-Just search developer setting and fine developer mode to enable it. Then restart your terminal.
+Open http://localhost:5173. Press the buttons. If they work, you are ready.
 
-## Workflow
+## 1. Pick your issue
 
-One issue → one branch → one PR. Never push to `main`; it is protected.
+Go to the **Issues** tab. Click **Assignee** and choose your name.
 
-1. Pick an issue assigned to you. Move it to **In Progress** on the board.
-2. Branch off the latest `main`:
+Start with the smallest number. If it says **Blocked by #8**, you cannot start yet.
+Pick another one.
 
-   ```bash
-   git checkout main
-   git pull
-   git checkout -b feat/12-counter-button
-   ```
+Each issue has a checklist. You are finished when every box is ticked.
 
-3. Commit as you go (see format below).
-4. Push and open a PR:
+Move your card to **In Progress** on the board.
 
-   ```bash
-   git push -u origin feat/12-counter-button
-   gh pr create --fill
-   ```
+## 2. Make a branch
 
-5. Put `Closes #12` in the PR body so the issue closes on merge.
-6. Wait for CI green + 1 approval, then **Squash and merge**.
-7. Delete the branch.
-
-## Branch names
-
-`<type>/<issue-number>-<short-slug>`
-
-```
-feat/12-counter-button
-fix/18-decrement-double-step
-chore/4-ci-workflow
-docs/21-readme
+```bash
+git checkout main
+git pull
+git checkout -b feat/12-history-list
 ```
 
-## Commit messages
+| Your work    | Branch name            |
+| ------------ | ---------------------- |
+| New feature  | `feat/12-history-list` |
+| Bug fix      | `fix/5-negative-count` |
+| Tools/config | `chore/4-add-test`     |
+| Documents    | `docs/17-readme`       |
 
-[Conventional Commits](https://www.conventionalcommits.org/). Subject in imperative mood, 50 chars or less.
+The number is your issue number.
 
+## 3. Write and save
+
+```bash
+git add .
+git commit -m "feat: add history list"
 ```
-feat: add reset button to counter
-fix: stop decrement subtracting twice
-chore: add vitest to CI pipeline
-docs: document Turso setup steps
-```
 
-## Before you open a PR
+Start the message with `feat:`, `fix:`, `chore:` or `docs:`. Write in English. Keep it short.
+
+## 4. Check before you push
 
 ```bash
 npm run format
@@ -73,16 +85,69 @@ npm run test
 npm run build
 ```
 
-CI runs these same four checks. If they fail locally, they fail on the PR.
+All four must pass. GitHub runs the same four. If they fail here, they fail there.
 
-## Review rules
+## 5. Open a pull request
 
-- Every PR needs 1 approval from someone who did not write it.
-- Reviewers: leave at least one comment, even if it is only "looks good, tested locally".
-- Author merges their own PR after approval. Reviewer does not merge for you.
-- Blocked on something? Add the `blocked` label and comment which issue number blocks you.
+```bash
+git push -u origin feat/12-history-list
+```
 
-## Environment variables
+Open GitHub. Click the green **Compare & pull request** button.
 
-Secrets live in `.env`, which is gitignored. Never commit it.
-`.env.example` lists the required keys with fake values — keep it updated when you add a key.
+Write what you did, then add this line with your issue number:
+
+```
+Closes #12
+```
+
+## 6. Get it merged
+
+GitHub checks your code. This takes one or two minutes.
+
+- Green tick: passed
+- Red cross: click it, read the reason, fix, push again
+
+Then one teammate must approve. You cannot approve your own work. Ask in the group chat.
+
+Green tick plus one approval, then click **Squash and merge**. Your issue closes by itself.
+
+## Review other people
+
+Open their pull request. Click **Files changed**. Read it.
+
+Click **Review changes**, then **Approve** or **Request changes**.
+A short comment is enough: "I tested it. It works."
+
+Review fast. A waiting pull request blocks a person.
+
+## Rules
+
+- Do not push to `main`. GitHub blocks it
+- Do not commit `.env`. It holds our password
+- One issue, one branch, one pull request
+- Stuck for an hour? Ask the group
+
+## When something breaks
+
+| Message                         | Fix                                          |
+| ------------------------------- | -------------------------------------------- |
+| `EPERM: symlink`                | Turn on Developer Mode. Restart the terminal |
+| `Check formatting` failed       | Run `npm run format`, commit, push again     |
+| `failed to push` / `protected`  | You are on `main`. Make a branch             |
+| `Your branch is behind`         | Run `git pull origin main`                   |
+| `TURSO_DATABASE_URL` is missing | No `.env` file. Ask the leader               |
+| A conflict appears              | Stop. Ask the group first                    |
+
+## Dates
+
+Deadline: **Monday 24 August, 17:00**
+
+| Date | Finished            |
+| ---- | ------------------- |
+| 8/20 | Database ready      |
+| 8/21 | Counter works       |
+| 8/23 | History list works  |
+| 8/24 | Tests, design, site |
+
+Stuck? Write a comment on your issue. Someone will answer.
