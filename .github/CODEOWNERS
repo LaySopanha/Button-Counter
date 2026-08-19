@@ -1,0 +1,28 @@
+# Owners are auto-suggested as reviewers on PRs touching these paths.
+# LAST matching pattern wins, so order goes broad -> specific.
+# Adjust as roles change.
+
+# Lead reviews anything not claimed below.
+*                               @LaySopanha
+
+# Server routes, form actions, API endpoints
+/src/lib/server/                @virakbottch
+/src/routes/api/                @virakbottch
+/src/routes/+page.server.ts     @virakbottch
+
+# Database — Turso schema, migrations, client (more specific than /src/lib/server/)
+/src/lib/server/db/             @zinhour10
+
+# Counter UI
+/src/lib/components/counter/    @Thaikarona
+
+# History UI
+/src/lib/components/history/    @LYLEAB
+
+# Tests and docs
+*.test.ts                       @Bemine5Cent
+/README.md                      @Bemine5Cent
+/CONTRIBUTING.md                @Bemine5Cent
+
+# CI, workflows, repo config
+/.github/                       @LaySopanha

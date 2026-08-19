@@ -1,43 +1,56 @@
-# sv
+# Button Counter
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A counter you click, with every click recorded in a database so the history is visible.
 
-## Creating a project
+This is a project made by Group 5 in the Japanese IT Pathway Batch 1.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Stack
 
-```sh
-# create a new project
-npx sv create my-app
-```
+| Layer     | Choice                         |
+| --------- | ------------------------------ |
+| Language  | TypeScript                     |
+| Framework | SvelteKit 2 + Svelte 5 (runes) |
+| Database  | Turso (libSQL)                 |
+| Tests     | Vitest                         |
+| CI        | GitHub Actions                 |
+| Hosting   | Vercel                         |
 
-To recreate this project with the same configuration:
+## Getting started
 
-```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --install npm button-counter
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
+```bash
+npm install
+cp .env.example .env   # fill in Turso credentials
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Open http://localhost:5173.
 
-To create a production version of your app:
+## Scripts
 
-```sh
-npm run build
-```
+| Command                | Does                            |
+| ---------------------- | ------------------------------- |
+| `npm run dev`          | Dev server with hot reload      |
+| `npm run build`        | Production build                |
+| `npm run preview`      | Serve the production build      |
+| `npm run check`        | TypeScript + Svelte typecheck   |
+| `npm run check:watch`  | Typecheck in watch mode         |
+| `npm run test`         | Unit tests once                 |
+| `npm run test:watch`   | Unit tests in watch mode        |
+| `npm run format`       | Format all files with Prettier  |
+| `npm run format:check` | Fail if anything is unformatted |
 
-You can preview the production build with `npm run preview`.
+## Contributing
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-# Button-Counter
+See [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one issue, one branch,
+one PR, CI green, one approval, squash merge.
+
+## Team
+
+| Member       | Area                        |
+| ------------ | --------------------------- |
+| @LaySopanha  | Lead, CI, deploy, reviews   |
+| @zinhour10   | Database, Turso schema      |
+| @virakbottch | Server routes, form actions |
+| @Thaikarona  | Counter UI                  |
+| @LYLEAB      | History UI                  |
+| @Bemine5Cent | Tests, docs, QA             |
