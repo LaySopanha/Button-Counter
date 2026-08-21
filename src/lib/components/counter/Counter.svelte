@@ -23,21 +23,9 @@
 		</span>
 	</span>
 
-	<button
-		type="button"
-		onclick={counter.increment}
-		aria-label="Increase count"
-	>
-		+
-	</button>
+	<button type="button" onclick={counter.increment} aria-label="Increase count"> + </button>
 
-	<button
-		type="button"
-		onclick={counter.reset}
-		aria-label="Reset count to zero"
-	>
-		Reset
-	</button>
+	<button type="button" onclick={counter.reset} aria-label="Reset count to zero"> Reset </button>
 </div>
 
 <style>
