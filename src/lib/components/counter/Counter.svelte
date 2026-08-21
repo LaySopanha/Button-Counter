@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createCounter } from './counter';
+	import { createCounter } from './counter.svelte';
 
 	let { startingCount = 0 }: { startingCount?: number } = $props();
 
