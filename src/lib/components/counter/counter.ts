@@ -1,22 +1,15 @@
-export type CounterState = {
-	count: number;
-};
+import { writable } from 'svelte/store';
 
-export function createCounter(initial: number) {
-	let count = $state(initial);
+export function createCounter(startingCount: number = 0) {
+	const count = writable(startingCount);
 
-	return {
-		get count() {
-			return count;
-		},
-		increment() {
-			count += 1;
-		},
-		decrement() {
-			count = count > 0 ? count - 1 : 0;
-		},
-		reset() {
-			count = 0;
-		}
-	};
+	function increment() {
+		count.update((n) => n + 1);
+	}
+
+	function decrement() {
+		count.update((n) => Math.max(0, n - 1));
+	}
+
+	return { count, increment, decrement };
 }
