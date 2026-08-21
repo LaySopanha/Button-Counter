@@ -1,34 +1,42 @@
 <script lang="ts">
 	import { createCounter } from './counter';
 
-	export let startingCount: number = 0;
+	let { startingCount = 0 }: { startingCount?: number } = $props();
 
-	const { count, increment, decrement } = createCounter(startingCount);
+	const counter = createCounter(startingCount);
 </script>
 
 <div class="counter" role="group" aria-label="Counter">
 	<button
 		type="button"
-		on:click={decrement}
-		disabled={$count <= 0}
+		onclick={counter.decrement}
+		disabled={counter.count <= 0}
 		aria-label="Decrease count"
 	>
 		−
 	</button>
 
 	<span class="count-display">
-		<span aria-hidden="true">{$count}</span>
+		<span aria-hidden="true">{counter.count}</span>
 		<span class="sr-only" aria-live="polite" aria-atomic="true">
-			Count is {$count}
+			Count is {counter.count}
 		</span>
 	</span>
 
 	<button
 		type="button"
-		on:click={increment}
+		onclick={counter.increment}
 		aria-label="Increase count"
 	>
 		+
+	</button>
+
+	<button
+		type="button"
+		onclick={counter.reset}
+		aria-label="Reset count to zero"
+	>
+		Reset
 	</button>
 </div>
 
@@ -41,8 +49,9 @@
 
 	button {
 		font-size: 1.5rem;
-		width: 2.5rem;
+		min-width: 2.5rem;
 		height: 2.5rem;
+		padding: 0 0.75rem;
 		border-radius: 0.375rem;
 		border: 1px solid #ccc;
 		background: #fff;
