@@ -1,32 +1,23 @@
 <script lang="ts">
-	import { createCounter } from './counter.svelte';
-
 	let { startingCount = 0 }: { startingCount?: number } = $props();
-
-	const counter = createCounter(startingCount);
 </script>
 
-<div class="counter" role="group" aria-label="Counter">
-	<button
-		type="button"
-		onclick={counter.decrement}
-		disabled={counter.count <= 0}
-		aria-label="Decrease count"
-	>
-		−
-	</button>
+<form class="counter" method="POST" action="?/click" role="group" aria-label="Counter">
+	<button type="submit" name="action" value="decrement" aria-label="Decrease count"> − </button>
 
 	<span class="count-display">
-		<span aria-hidden="true">{counter.count}</span>
+		<span aria-hidden="true">{startingCount}</span>
 		<span class="sr-only" aria-live="polite" aria-atomic="true">
-			Count is {counter.count}
+			Count is {startingCount}
 		</span>
 	</span>
 
-	<button type="button" onclick={counter.increment} aria-label="Increase count"> + </button>
+	<button type="submit" name="action" value="increment" aria-label="Increase count"> + </button>
 
-	<button type="button" onclick={counter.reset} aria-label="Reset count to zero"> Reset </button>
-</div>
+	<button type="submit" name="action" value="reset" aria-label="Reset count to zero">
+		Reset
+	</button>
+</form>
 
 <style>
 	.counter {
