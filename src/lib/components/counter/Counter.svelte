@@ -4,14 +4,7 @@
 	let { startingCount = 0 }: { startingCount?: number } = $props();
 </script>
 
-<form
-	class="counter"
-	method="POST"
-	action="?/click"
-	use:enhance
-	role="group"
-	aria-label="Counter"
->
+<form class="counter" method="POST" action="?/click" use:enhance role="group" aria-label="Counter">
 	<button type="submit" name="action" value="decrement" aria-label="Decrease count"> − </button>
 
 	<span class="count-display">
