@@ -69,4 +69,12 @@ describe('database', () => {
 		const result = await db.execute('SELECT * FROM click_events');
 		expect(result.rows[0]).toMatchObject({ action: 'reset', count: 0 });
 	});
+	it('should reject an invalid action name', async () => {
+		await expect(
+			db.execute({
+				sql: 'INSERT INTO click_events (action, count) VALUES (?, ?)',
+				args: ['invalid', 99]
+			})
+		).rejects.toThrow();
+	});
 });
