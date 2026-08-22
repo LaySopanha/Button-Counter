@@ -5,7 +5,7 @@
 		id: number;
 		action: string;
 		count: number;
-		time: string;
+		created_at: string;
 	};
 
 	let { history = [] }: { history: Item[] } = $props();
@@ -18,7 +18,7 @@
 		<p>No history yet!</p>
 	{:else}
 		<ul class="list">
-			{#each history as item}
+			{#each history as item (item.id)}
 				<li>
 					<span class="badge {item.action}">
 						{item.action}
@@ -29,7 +29,7 @@
 					</span>
 
 					<span class="time">
-						{formatRelativeTime(item.time)}
+						{formatRelativeTime(item.created_at)}
 					</span>
 				</li>
 			{/each}

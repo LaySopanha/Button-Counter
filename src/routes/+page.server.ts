@@ -18,7 +18,7 @@ async function getLatestCount(): Promise<number> {
 
 async function getHistory(): Promise<HistoryEntry[]> {
 	const result = await db.execute(
-		'SELECT id, action, count, created_at FROM click_events ORDER BY id DESC LIMIT 20'
+		`SELECT id, action, count, replace(created_at, ' ', 'T') || 'Z' AS created_at FROM click_events ORDER BY id DESC LIMIT 20`
 	);
 
 	return result.rows.map((row) => ({

@@ -1,4 +1,4 @@
-export function formatRelativeTime(date: any) {
+export function formatRelativeTime(date: string | Date) {
 	let time = new Date(date).getTime();
 	let seconds = Math.floor((Date.now() - time) / 1000);
 
