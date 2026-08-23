@@ -1,36 +1,28 @@
 <script lang="ts">
 	import { formatRelativeTime } from './time';
-
 	type Item = {
 		id: number;
 		action: string;
 		count: number;
 		created_at: string;
 	};
-
 	let { history = [] }: { history: Item[] } = $props();
 </script>
 
 <div class="history-box">
-	<h2>History</h2>
-
+	<h2>Activity</h2>
 	{#if history.length === 0}
-		<p>No history yet!</p>
+		<p class="empty">No history yet!</p>
 	{:else}
-		<ul class="list">
+		<ul class="timeline">
 			{#each history as item (item.id)}
-				<li>
-					<span class="badge {item.action}">
-						{item.action}
+				<li class="timeline-item">
+					<span class="timeline-dot {item.action}"></span>
+					<span class="timeline-content">
+						<span class="action-text">{item.action}</span>
+						<span class="result-text">→ {item.count}</span>
 					</span>
-
-					<span class="middle">
-						Result: {item.count}
-					</span>
-
-					<span class="time">
-						{formatRelativeTime(item.created_at)}
-					</span>
+					<span class="timeline-time">{formatRelativeTime(item.created_at)}</span>
 				</li>
 			{/each}
 		</ul>
@@ -39,54 +31,87 @@
 
 <style>
 	.history-box {
-		margin-top: 20px;
-		width: 400px;
+		width: 100%;
+		max-width: 400px;
+		margin-top: 2rem;
+		padding: 2rem;
+		background: white;
+		border-radius: 1.5rem;
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
 	}
 
-	.list {
+	h2 {
+		text-align: center;
+		margin-top: 0;
+		margin-bottom: 2rem;
+		color: #3f3f46;
+	}
+
+	.empty {
+		text-align: center;
+		color: #a1a1aa;
+	}
+
+	.timeline {
 		list-style: none;
-		padding: 0;
+		margin: 0;
+		border-left: 2px solid #f4f4f5;
+		margin-left: 1rem;
+		padding-left: 1.5rem;
+		/* Keep a long history from pushing the rest of the page down */
 		max-height: 250px;
 		overflow-y: auto;
-		border: 1px solid #ccc;
-		border-radius: 5px;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
 	}
 
-	li {
+	.timeline-item {
+		position: relative;
 		display: flex;
 		justify-content: space-between;
-		padding: 10px;
-		border-bottom: 1px solid #eee;
+		align-items: center;
 	}
 
-	.badge {
+	.timeline-dot {
+		position: absolute;
+		left: -1.9rem; /* Centers the dot on the border */
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		border: 3px solid white;
+	}
+
+	/* Timeline dot colors */
+	.timeline-dot.increment {
+		background: #10b981;
+	}
+	.timeline-dot.decrement {
+		background: #f43f5e;
+	}
+	.timeline-dot.reset {
+		background: #94a3b8;
+	}
+
+	.timeline-content {
+		font-family: var(--font-main);
+		font-size: 1rem;
+		color: #52525b;
+	}
+
+	.action-text {
+		text-transform: capitalize;
 		font-weight: bold;
-		font-size: 12px;
-		padding: 5px;
-		border-radius: 3px;
+		color: #27272a;
 	}
 
-	/* Beginners usually use basic colors or simple hexes, not perfectly matched palettes */
-	.increment {
-		background: lightgreen;
-		color: darkgreen;
-	}
-	.decrement {
-		background: #ffcccc;
-		color: red;
-	}
-	.reset {
-		background: #eee;
-		color: black;
+	.result-text {
+		color: #a1a1aa;
+		font-weight: 500;
 	}
 
-	.middle {
-		flex-grow: 1;
-		text-align: center;
-	}
-
-	.time {
-		font-size: 12px;
-		color: gray;
+	.timeline-time {
+		font-size: 0.8rem;
+		color: #a1a1aa;
 	}
 </style>
