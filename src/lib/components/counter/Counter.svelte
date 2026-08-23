@@ -12,11 +12,8 @@
 
 	const shown = $derived(predicted ?? startingCount);
 
-	const submitClick: SubmitFunction = ({ formData }) => {
-		const action = formData.get('action');
-
-		predicted =
-			action === 'increment' ? shown + 1 : action === 'decrement' ? Math.max(0, shown - 1) : 0;
+	const submitClick: SubmitFunction = () => {
+		predicted = shown + 1;
 		inFlight += 1;
 
 		return async ({ update }) => {
@@ -54,24 +51,6 @@
 		>
 			PRESS
 		</button>
-	</div>
-
-	<!-- The Smaller Buttons -->
-	<div class="secondary-actions">
-		<button
-			type="submit"
-			name="action"
-			value="decrement"
-			class="btn-small"
-			aria-label="Decrease count">− Decrease</button
-		>
-		<button
-			type="submit"
-			name="action"
-			value="reset"
-			class="btn-small"
-			aria-label="Reset count to zero">Reset</button
-		>
 	</div>
 </form>
 
@@ -122,37 +101,6 @@
 	.btn-huge:focus-visible {
 		outline: 3px solid var(--primary-dark);
 		outline-offset: 4px;
-	}
-
-	.secondary-actions {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 1rem;
-		margin-top: 1rem;
-	}
-
-	.btn-small {
-		font-family: var(--font-main);
-		font-size: 1rem;
-		padding: 0.75rem 1.5rem;
-		border-radius: 0.5rem;
-		border: 2px solid #e4e4e7;
-		background: transparent;
-		color: #71717a;
-		cursor: pointer;
-		font-weight: bold;
-		transition: all 0.2s;
-	}
-
-	.btn-small:hover {
-		background: #f4f4f5;
-		color: #27272a;
-	}
-
-	.btn-small:focus-visible {
-		outline: 2px solid #71717a;
-		outline-offset: 2px;
 	}
 
 	.sr-only {

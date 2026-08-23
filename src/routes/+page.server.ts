@@ -35,23 +35,19 @@ export const load = async () => {
 
 // The new count is derived inside the INSERT rather than read first, so two
 // overlapping clicks cannot both read the same value and store it twice.
-const COUNT_EXPR = {
-	increment: 'COALESCE((SELECT count FROM click_events ORDER BY id DESC LIMIT 1), 0) + 1',
-	decrement: 'MAX(COALESCE((SELECT count FROM click_events ORDER BY id DESC LIMIT 1), 0) - 1, 0)',
-	reset: '0'
-} as const;
+const NEXT_COUNT = 'COALESCE((SELECT count FROM click_events ORDER BY id DESC LIMIT 1), 0) + 1';
 
 export const actions = {
 	click: async ({ request }: RequestEvent) => {
 		const data = await request.formData();
 		const action = data.get('action');
 
-		if (action !== 'increment' && action !== 'decrement' && action !== 'reset') {
+		if (action !== 'increment') {
 			return fail(400, { error: 'invalid action' });
 		}
 
 		const result = await db.execute({
-			sql: `INSERT INTO click_events (action, count) VALUES (?, ${COUNT_EXPR[action]}) RETURNING count`,
+			sql: `INSERT INTO click_events (action, count) VALUES (?, ${NEXT_COUNT}) RETURNING count`,
 			args: [action]
 		});
 
