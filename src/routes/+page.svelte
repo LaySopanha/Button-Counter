@@ -13,7 +13,7 @@
 	<HistoryList history={data.history} />
 </div>
 
-<style>
+<!-- <style>
 	.container {
 		display: flex;
 		flex-direction: column;
@@ -21,4 +21,4 @@
 		font-family: Arial, sans-serif;
 		padding: 30px;
 	}
-</style>
+</style> -->

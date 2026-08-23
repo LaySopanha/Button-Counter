@@ -1,59 +1,102 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-
 	let { startingCount = 0 }: { startingCount?: number } = $props();
 </script>
 
-<form class="counter" method="POST" action="?/click" use:enhance role="group" aria-label="Counter">
-	<button type="submit" name="action" value="decrement" aria-label="Decrease count"> − </button>
-
-	<span class="count-display">
+<form class="counter" method="POST" action="?/click" use:enhance>
+	<!-- The Huge Number -->
+	<div class="count-display">
 		<span aria-hidden="true">{startingCount}</span>
-		<span class="sr-only" aria-live="polite" aria-atomic="true">
-			Count is {startingCount}
-		</span>
-	</span>
+		<span class="sr-only">Count is {startingCount}</span>
+	</div>
 
-	<button type="submit" name="action" value="increment" aria-label="Increase count"> + </button>
+	<!-- The Massive 3D Button -->
+	<div class="main-action">
+		<button type="submit" name="action" value="increment" class="btn-huge"> PRESS </button>
+	</div>
 
-	<button type="submit" name="action" value="reset" aria-label="Reset count to zero">
-		Reset
-	</button>
+	<!-- The Smaller Buttons -->
+	<div class="secondary-actions">
+		<button type="submit" name="action" value="decrement" class="btn-small">− Decrease</button>
+		<button type="submit" name="action" value="reset" class="btn-small">Reset</button>
+	</div>
 </form>
 
 <style>
 	.counter {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
-	}
-
-	button {
-		font-size: 1.5rem;
-		min-width: 2.5rem;
-		height: 2.5rem;
-		padding: 0 0.75rem;
-		border-radius: 0.375rem;
-		border: 1px solid #ccc;
-		background: #fff;
-		cursor: pointer;
-	}
-
-	button:disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
-	}
-
-	button:focus-visible {
-		outline: 2px solid #2563eb;
-		outline-offset: 2px;
+		gap: 2rem;
+		margin: 2rem 0;
 	}
 
 	.count-display {
-		min-width: 3rem;
-		text-align: center;
-		font-size: 1.25rem;
-		font-variant-numeric: tabular-nums;
+		font-size: 8rem; /* Massive number */
+		font-weight: 900;
+		color: #3f3f46;
+		line-height: 1;
+		font-family: var(--font-heading);
+	}
+
+	.btn-huge {
+		font-family: var(--font-main);
+		font-size: 2.5rem;
+		font-weight: bold;
+		padding: 1.5rem 4rem;
+		border-radius: 1rem;
+		background: #e11d48; /* Red tactile button */
+		color: white;
+		border: none;
+		/* The 3D tactile shadow effect */
+		box-shadow:
+			0 10px 0 #9f1239,
+			0 15px 20px rgba(0, 0, 0, 0.2);
+		cursor: pointer;
+		transition: all 0.1s ease;
+		letter-spacing: 4px;
+	}
+
+	/* When clicked, it presses down! */
+	.btn-huge:active {
+		transform: translateY(10px);
+		box-shadow:
+			0 0px 0 #9f1239,
+			0 5px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.btn-huge:focus-visible {
+		outline: 3px solid #9f1239;
+		outline-offset: 4px;
+	}
+
+	.secondary-actions {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.btn-small {
+		font-family: var(--font-main);
+		font-size: 1rem;
+		padding: 0.75rem 1.5rem;
+		border-radius: 0.5rem;
+		border: 2px solid #e4e4e7;
+		background: transparent;
+		color: #71717a;
+		cursor: pointer;
+		font-weight: bold;
+		transition: all 0.2s;
+	}
+
+	.btn-small:hover {
+		background: #f4f4f5;
+		color: #27272a;
+	}
+
+	.btn-small:focus-visible {
+		outline: 2px solid #71717a;
+		outline-offset: 2px;
 	}
 
 	.sr-only {
