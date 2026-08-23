@@ -8,14 +8,6 @@ export type HistoryEntry = {
 	created_at: string;
 };
 
-async function getLatestCount(): Promise<number> {
-	const result = await db.execute('SELECT count FROM click_events ORDER BY id DESC LIMIT 1');
-	if (result.rows.length === 0) return 0;
-
-	const count = Number(result.rows[0].count);
-	return Number.isFinite(count) ? count : 0;
-}
-
 async function getHistory(): Promise<HistoryEntry[]> {
 	const result = await db.execute(
 		`SELECT id, action, count, replace(created_at, ' ', 'T') || 'Z' AS created_at FROM click_events ORDER BY id DESC LIMIT 20`
@@ -30,9 +22,24 @@ async function getHistory(): Promise<HistoryEntry[]> {
 }
 
 export const load = async () => {
-	const [count, history] = await Promise.all([getLatestCount(), getHistory()]);
-	return { count, history };
+	// The newest history row already carries the current count, so one round trip
+	// to the database answers both questions.
+	const history = await getHistory();
+	const latest = history[0]?.count;
+
+	return {
+		count: Number.isFinite(latest) ? (latest as number) : 0,
+		history
+	};
 };
+
+// The new count is derived inside the INSERT rather than read first, so two
+// overlapping clicks cannot both read the same value and store it twice.
+const COUNT_EXPR = {
+	increment: 'COALESCE((SELECT count FROM click_events ORDER BY id DESC LIMIT 1), 0) + 1',
+	decrement: 'MAX(COALESCE((SELECT count FROM click_events ORDER BY id DESC LIMIT 1), 0) - 1, 0)',
+	reset: '0'
+} as const;
 
 export const actions = {
 	click: async ({ request }: RequestEvent) => {
@@ -43,19 +50,11 @@ export const actions = {
 			return fail(400, { error: 'invalid action' });
 		}
 
-		const currentCount = await getLatestCount();
-		const newCount =
-			action === 'increment'
-				? currentCount + 1
-				: action === 'decrement'
-					? Math.max(0, currentCount - 1)
-					: 0;
-
-		await db.execute({
-			sql: 'INSERT INTO click_events (action, count) VALUES (?, ?)',
-			args: [action, newCount]
+		const result = await db.execute({
+			sql: `INSERT INTO click_events (action, count) VALUES (?, ${COUNT_EXPR[action]}) RETURNING count`,
+			args: [action]
 		});
 
-		return { count: newCount };
+		return { count: Number(result.rows[0].count) };
 	}
 };

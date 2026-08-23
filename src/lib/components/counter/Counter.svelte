@@ -1,14 +1,45 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
+
 	let { startingCount = 0 }: { startingCount?: number } = $props();
+
+	// The server is the source of truth, but a click costs two round trips before
+	// its result lands. Show the predicted count immediately and fall back to the
+	// server value once every in-flight click has settled.
+	let predicted = $state<number | null>(null);
+	let inFlight = $state(0);
+
+	const shown = $derived(predicted ?? startingCount);
+
+	const submitClick: SubmitFunction = ({ formData }) => {
+		const action = formData.get('action');
+
+		predicted =
+			action === 'increment' ? shown + 1 : action === 'decrement' ? Math.max(0, shown - 1) : 0;
+		inFlight += 1;
+
+		return async ({ update }) => {
+			await update();
+			inFlight -= 1;
+			if (inFlight === 0) predicted = null;
+		};
+	};
 </script>
 
-<form class="counter" method="POST" action="?/click" use:enhance role="group" aria-label="Counter">
+<form
+	class="counter"
+	method="POST"
+	action="?/click"
+	use:enhance={submitClick}
+	role="group"
+	aria-label="Counter"
+>
 	<!-- The Huge Number -->
 	<div class="count-display">
-		<span aria-hidden="true">{startingCount}</span>
+		<span aria-hidden="true">{shown}</span>
 		<span class="sr-only" aria-live="polite" aria-atomic="true">
-			Count is {startingCount}
+			Count is {shown}
 		</span>
 	</div>
 
