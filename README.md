@@ -4,6 +4,8 @@ A counter you click, with every click recorded in a database so the history is v
 
 This is a project made by Group 5 in the Japanese IT Pathway Batch 1.
 
+Live site: https://button-counter-seven.vercel.app
+
 ## Stack
 
 | Layer     | Choice                         |
