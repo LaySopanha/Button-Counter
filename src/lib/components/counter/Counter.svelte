@@ -3,22 +3,44 @@
 	let { startingCount = 0 }: { startingCount?: number } = $props();
 </script>
 
-<form class="counter" method="POST" action="?/click" use:enhance>
+<form class="counter" method="POST" action="?/click" use:enhance role="group" aria-label="Counter">
 	<!-- The Huge Number -->
 	<div class="count-display">
 		<span aria-hidden="true">{startingCount}</span>
-		<span class="sr-only">Count is {startingCount}</span>
+		<span class="sr-only" aria-live="polite" aria-atomic="true">
+			Count is {startingCount}
+		</span>
 	</div>
 
 	<!-- The Massive 3D Button -->
 	<div class="main-action">
-		<button type="submit" name="action" value="increment" class="btn-huge"> PRESS </button>
+		<button
+			type="submit"
+			name="action"
+			value="increment"
+			class="btn-huge"
+			aria-label="Increase count"
+		>
+			PRESS
+		</button>
 	</div>
 
 	<!-- The Smaller Buttons -->
 	<div class="secondary-actions">
-		<button type="submit" name="action" value="decrement" class="btn-small">− Decrease</button>
-		<button type="submit" name="action" value="reset" class="btn-small">Reset</button>
+		<button
+			type="submit"
+			name="action"
+			value="decrement"
+			class="btn-small"
+			aria-label="Decrease count">− Decrease</button
+		>
+		<button
+			type="submit"
+			name="action"
+			value="reset"
+			class="btn-small"
+			aria-label="Reset count to zero">Reset</button
+		>
 	</div>
 </form>
 
@@ -32,25 +54,26 @@
 	}
 
 	.count-display {
-		font-size: 8rem; /* Massive number */
+		font-size: clamp(4rem, 18vw, 8rem); /* Massive number, but never wider than the screen */
 		font-weight: 900;
 		color: #3f3f46;
 		line-height: 1;
 		font-family: var(--font-heading);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.btn-huge {
 		font-family: var(--font-main);
-		font-size: 2.5rem;
+		font-size: clamp(1.5rem, 8vw, 2.5rem);
 		font-weight: bold;
-		padding: 1.5rem 4rem;
+		padding: 1.5rem clamp(2rem, 12vw, 4rem);
 		border-radius: 1rem;
-		background: #e11d48; /* Red tactile button */
+		background: var(--primary); /* Red tactile button */
 		color: white;
 		border: none;
 		/* The 3D tactile shadow effect */
 		box-shadow:
-			0 10px 0 #9f1239,
+			0 10px 0 var(--primary-dark),
 			0 15px 20px rgba(0, 0, 0, 0.2);
 		cursor: pointer;
 		transition: all 0.1s ease;
@@ -61,17 +84,19 @@
 	.btn-huge:active {
 		transform: translateY(10px);
 		box-shadow:
-			0 0px 0 #9f1239,
+			0 0px 0 var(--primary-dark),
 			0 5px 10px rgba(0, 0, 0, 0.2);
 	}
 
 	.btn-huge:focus-visible {
-		outline: 3px solid #9f1239;
+		outline: 3px solid var(--primary-dark);
 		outline-offset: 4px;
 	}
 
 	.secondary-actions {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: 1rem;
 		margin-top: 1rem;
 	}

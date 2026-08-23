@@ -1,5 +1,6 @@
 :root {
 	--primary: #e11d48; /* Bold red */
+	--primary-dark: #9f1239; /* Pressed state for --primary */
 	--bg: #fdfaf6; /* Creamy off-white */
 	--text: #27272a;
 	--font-main: 'Zen Kaku Gothic New', sans-serif;

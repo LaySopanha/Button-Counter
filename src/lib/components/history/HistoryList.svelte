@@ -14,18 +14,18 @@
 	{#if history.length === 0}
 		<p class="empty">No history yet!</p>
 	{:else}
-		<div class="timeline">
+		<ul class="timeline">
 			{#each history as item (item.id)}
-				<div class="timeline-item">
-					<div class="timeline-dot {item.action}"></div>
-					<div class="timeline-content">
+				<li class="timeline-item">
+					<span class="timeline-dot {item.action}"></span>
+					<span class="timeline-content">
 						<span class="action-text">{item.action}</span>
 						<span class="result-text">→ {item.count}</span>
-					</div>
-					<div class="timeline-time">{formatRelativeTime(item.created_at)}</div>
-				</div>
+					</span>
+					<span class="timeline-time">{formatRelativeTime(item.created_at)}</span>
+				</li>
 			{/each}
-		</div>
+		</ul>
 	{/if}
 </div>
 
@@ -53,9 +53,14 @@
 	}
 
 	.timeline {
+		list-style: none;
+		margin: 0;
 		border-left: 2px solid #f4f4f5;
 		margin-left: 1rem;
 		padding-left: 1.5rem;
+		/* Keep a long history from pushing the rest of the page down */
+		max-height: 250px;
+		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
