@@ -69,26 +69,16 @@ describe('+page.server', () => {
 	});
 
 	describe('load', () => {
-		it('should return history and take the count from its newest row', async () => {
-			vi.mocked(db.execute).mockResolvedValueOnce({
-				rows: [
-					{ id: 2, action: 'increment', count: 7, created_at: '2026-08-22T10:00:00Z' },
-					{ id: 1, action: 'reset', count: 0, created_at: '2026-08-22T09:55:00Z' }
-				]
-			} as any);
+		it('should take the count from the newest row', async () => {
+			vi.mocked(db.execute).mockResolvedValueOnce({ rows: [{ count: 7 }] } as any);
 
 			const result = await load();
 
 			expect(result.count).toBe(7);
-			// Older rows still carry actions the buttons no longer produce.
-			expect(result.history).toEqual([
-				{ id: 2, action: 'increment', count: 7, created_at: '2026-08-22T10:00:00Z' },
-				{ id: 1, action: 'reset', count: 0, created_at: '2026-08-22T09:55:00Z' }
-			]);
 		});
 
-		it('should use a single query for count and history', async () => {
-			vi.mocked(db.execute).mockResolvedValueOnce({ rows: [] } as any);
+		it('should read the count in a single query', async () => {
+			vi.mocked(db.execute).mockResolvedValueOnce({ rows: [{ count: 7 }] } as any);
 
 			await load();
 
@@ -101,7 +91,6 @@ describe('+page.server', () => {
 			const result = await load();
 
 			expect(result.count).toBe(0);
-			expect(result.history).toEqual([]);
 		});
 	});
 });

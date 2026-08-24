@@ -32,14 +32,3 @@ export async function getLatestCount(): Promise<number> {
 
 	return Number(result.rows[0].count);
 }
-
-export async function getClickHistory() {
-	const result = await db.execute(`
-		SELECT id, action, count, created_at
-		FROM click_events
-		ORDER BY id DESC
-		LIMIT 20
-	`);
-
-	return result.rows;
-}

@@ -1,6 +1,6 @@
 # Button Counter
 
-A counter you click, with every click recorded in a database so the history is visible.
+A counter you click, with every click recorded in a database.
 
 This is a project made by Group 5 in the Japanese IT Pathway Batch 1.
 
@@ -24,25 +24,21 @@ Live site: https://button-counter-seven.vercel.app
 The page is rendered on the server. Every click is a form post, so the counter
 also works with JavaScript turned off.
 
-1. `src/routes/+page.server.ts` loads the newest 20 rows from the `click_events`
-   table. The newest row already carries the current count, so one query answers
-   both "what is the count" and "what happened before".
+1. `src/routes/+page.server.ts` reads the newest row of the `click_events`
+   table, which carries the current count.
 2. Pressing the button posts to the `click` form action. The new count is
    computed inside the `INSERT` statement itself, so two people clicking at the
    same time can never store the same number twice.
 3. `Counter.svelte` enhances the form with `use:enhance`. It shows the next
    number straight away and falls back to the server value once every in-flight
    click has answered.
-4. `HistoryList.svelte` prints the rows, newest first, with a relative time such
-   as "2 minutes ago", and a message when the table is still empty.
 
-| File                                            | Does                            |
-| ----------------------------------------------- | ------------------------------- |
-| `src/lib/db.ts`                                 | Turso client and queries        |
-| `src/lib/server/db/schema.sql`                  | The `click_events` table        |
-| `src/routes/+page.server.ts`                    | Load the page, handle the click |
-| `src/lib/components/counter/Counter.svelte`     | The button and the big number   |
-| `src/lib/components/history/HistoryList.svelte` | The history list                |
+| File                                        | Does                            |
+| ------------------------------------------- | ------------------------------- |
+| `src/lib/db.ts`                             | Turso client and queries        |
+| `src/lib/server/db/schema.sql`              | The `click_events` table        |
+| `src/routes/+page.server.ts`                | Load the page, handle the click |
+| `src/lib/components/counter/Counter.svelte` | The button and the big number   |
 
 ## Getting started
 
