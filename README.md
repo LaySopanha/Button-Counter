@@ -4,7 +4,7 @@ A counter you click, with every click recorded in a database.
 
 This is a project made by Group 5 in the Japanese IT Pathway Batch 1.
 
-Live site: https://button-counter-seven.vercel.app
+Live site: [https://button-counter-seven.vercel.app](https://button-counter-group5.vercel.app/)
 
 ![The Button Counter page: the count and the PRESS button](static/website-image.png)
 
