@@ -6,6 +6,8 @@ This is a project made by Group 5 in the Japanese IT Pathway Batch 1.
 
 Live site: https://button-counter-seven.vercel.app
 
+![The Button Counter page: the count and the PRESS button](static/website-image.png)
+
 ## Stack
 
 | Layer     | Choice                         |
