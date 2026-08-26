@@ -28,11 +28,20 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
+      - name: Lint
+        run: npm run lint
+
       - name: Typecheck
         run: npm run check
 
       - name: Unit tests
         run: npm run test
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: npm run test:e2e
 
       - name: Build
         run: npm run build

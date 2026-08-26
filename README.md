@@ -10,14 +10,15 @@ Live site: https://button-counter-group5.vercel.app
 
 ## Stack
 
-| Layer     | Choice                         |
-| --------- | ------------------------------ |
-| Language  | TypeScript                     |
-| Framework | SvelteKit 2 + Svelte 5 (runes) |
-| Database  | Turso (libSQL)                 |
-| Tests     | Vitest                         |
-| CI        | GitHub Actions                 |
-| Hosting   | Vercel                         |
+| Layer     | Choice                           |
+| --------- | -------------------------------- |
+| Language  | TypeScript                       |
+| Framework | SvelteKit 2 + Svelte 5 (runes)   |
+| Database  | Turso (libSQL)                   |
+| Linter    | ESLint + Prettier                |
+| Tests     | Vitest (Unit) + Playwright (E2E) |
+| CI        | GitHub Actions                   |
+| Hosting   | Vercel                           |
 
 ## How it works
 
@@ -99,11 +100,13 @@ Open http://localhost:5173.
 | `npm run check:watch`  | Typecheck in watch mode         |
 | `npm run test`         | Unit tests once                 |
 | `npm run test:watch`   | Unit tests in watch mode        |
+| `npm run test:e2e`     | Playwright E2E tests            |
+| `npm run lint`         | Lint codebase with ESLint       |
 | `npm run format`       | Format all files with Prettier  |
 | `npm run format:check` | Fail if anything is unformatted |
 
-`npm run format:check`, `npm run check`, `npm run test` and `npm run build` are
-the same four commands CI runs.
+`npm run format:check`, `npm run lint`, `npm run check`, `npm run test`, `npm run test:e2e` and `npm run build` are
+the commands CI runs.
 
 ## Contributing
 
