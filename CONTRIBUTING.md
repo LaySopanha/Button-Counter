@@ -80,12 +80,14 @@ Start the message with `feat:`, `fix:`, `chore:` or `docs:`. Write in English. K
 
 ```bash
 npm run format
+npm run lint
 npm run check
 npm run test
+npm run test:e2e
 npm run build
 ```
 
-All four must pass. GitHub runs the same four. If they fail here, they fail there.
+All must pass. GitHub runs them too. If they fail here, they fail there.
 
 ## 5. Open a pull request
 

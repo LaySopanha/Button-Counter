@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, afterEach, vi } from 'vitest';
 
 describe('database', () => {
 	let db: any;
@@ -24,6 +24,12 @@ describe('database', () => {
         created_at TEXT NOT NULL DEFAULT (datetime('now'))
       )
     `);
+	});
+
+	beforeEach(async () => {
+		if (db) {
+			await db.execute('DELETE FROM click_events');
+		}
 	});
 
 	afterEach(async () => {
